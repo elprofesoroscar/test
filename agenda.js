@@ -96,13 +96,14 @@
   }
 
   function isPhpMyAdminExport(data) {
-    return (
-      Array.isArray(data) &&
-      data.length > 0 &&
-      data[0] &&
-      data[0].type === 'header' &&
-      String(data[0].comment || '').indexOf('phpMyAdmin') !== -1
-    );
+    if (!Array.isArray(data) || !data.length || !data[0] || data[0].type !== 'header') return false;
+    var c = String(data[0].comment || '').toLowerCase();
+    if (c.indexOf('phpmyadmin') !== -1) return true;
+    for (var i = 0; i < data.length; i++) {
+      var it = data[i];
+      if (it && it.type === 'table' && (it.name === 'clases' || it.name === 'notashoraslibres')) return true;
+    }
+    return false;
   }
 
   function extractBlocksFromPhpMyAdmin(arr) {
