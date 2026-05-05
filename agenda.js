@@ -256,17 +256,56 @@
     table.appendChild(tbody); scroll.appendChild(table); wrap.appendChild(scroll); container.appendChild(wrap);
   }
 
+  function ensureModal() {
+    var existing = document.getElementById('modalSlotLibre');
+    if (existing) return existing;
+
+    var m = document.createElement('div');
+    m.id = 'modalSlotLibre';
+    m.setAttribute('aria-hidden', 'true');
+    m.setAttribute('role', 'dialog');
+    m.setAttribute('aria-modal', 'true');
+    // Estilos inline para que funcione aunque el CSS no los tenga
+    m.style.cssText = 'display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:9999;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)';
+
+    m.innerHTML =
+      '<div style="background:linear-gradient(180deg,#101729,#0a0f1c);color:#f4eedb;max-width:520px;margin:5vh auto;padding:2rem;border-radius:18px;position:relative;border:1px solid rgba(212,173,94,.32);box-shadow:0 30px 80px rgba(0,0,0,.6);">' +
+        '<div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#d4ad5e,#7ad7ff,#9b7cff);border-radius:18px 18px 0 0"></div>' +
+        '<button onclick="closeModalSlotLibre()" aria-label="Cerrar" style="position:absolute;top:.85rem;right:1.1rem;font-size:1.7rem;color:#8a8576;background:none;border:none;cursor:pointer;line-height:1;font-family:inherit">×</button>' +
+        '<h3 style="font-family:Fraunces,Georgia,serif;font-size:1.6rem;font-weight:900;color:#f0cd83;margin-bottom:.6rem">Reservar hueco libre</h3>' +
+        '<p style="color:#cbc6b3;font-size:.95rem;margin-bottom:.4rem">Completa los datos y se abrirá WhatsApp con el mensaje listo para enviar.</p>' +
+        '<p style="color:#cbc6b3;font-size:.9rem;margin-bottom:1.2rem">Hueco: <strong id="slotLibreContextLabel" style="color:#f0cd83"></strong></p>' +
+        '<input type="hidden" id="slotLibreContext" />' +
+        '<input type="text" id="slotLibreNombre" placeholder="Tu nombre (persona de contacto) *" autocomplete="name" style="width:100%;box-sizing:border-box;padding:.85rem 1rem;margin:.35rem 0;background:#070b14;color:#f4eedb;border:1px solid rgba(212,173,94,.32);border-radius:10px;font-size:.95rem;font-family:inherit;outline:none" />' +
+        '<input type="text" id="slotLibreAsignatura" placeholder="Asignatura *" style="width:100%;box-sizing:border-box;padding:.85rem 1rem;margin:.35rem 0;background:#070b14;color:#f4eedb;border:1px solid rgba(212,173,94,.32);border-radius:10px;font-size:.95rem;font-family:inherit;outline:none" />' +
+        '<input type="text" id="slotLibreNivel" placeholder="Nivel (ej. 2º Bachillerato Ciencias) *" style="width:100%;box-sizing:border-box;padding:.85rem 1rem;margin:.35rem 0;background:#070b14;color:#f4eedb;border:1px solid rgba(212,173,94,.32);border-radius:10px;font-size:.95rem;font-family:inherit;outline:none" />' +
+        '<input type="text" id="slotLibreAlumno" placeholder="Nombre del alumno *" style="width:100%;box-sizing:border-box;padding:.85rem 1rem;margin:.35rem 0;background:#070b14;color:#f4eedb;border:1px solid rgba(212,173,94,.32);border-radius:10px;font-size:.95rem;font-family:inherit;outline:none" />' +
+        '<button onclick="sendWhatsAppSlotLibre()" style="width:100%;display:inline-flex;align-items:center;justify-content:center;gap:.6rem;padding:1rem 1.75rem;border-radius:999px;background:linear-gradient(135deg,#5fd76b 0%,#22c55e 100%);color:#fff;font-weight:700;font-size:1rem;border:none;cursor:pointer;margin-top:1rem;font-family:inherit;box-shadow:0 8px 28px rgba(34,197,94,.35)">&#xF232; Enviar por WhatsApp</button>' +
+      '</div>';
+
+    document.body.appendChild(m);
+
+    // Cerrar al clicar fuera
+    m.addEventListener('click', function(e) {
+      if (e.target === m) closeModalSlotLibre();
+    });
+
+    return m;
+  }
+
   function openModalLibre(day, hour) {
-    var modal = document.getElementById('modalSlotLibre'); if (!modal) return;
+    var modal = ensureModal();
     var ctx = formatSlotLabelLong(day, hour);
     document.getElementById('slotLibreContext').value = ctx;
-    var lbl = document.getElementById('slotLibreContextLabel'); if (lbl) lbl.textContent = ctx;
+    var lbl = document.getElementById('slotLibreContextLabel');
+    if (lbl) lbl.textContent = ctx;
     document.getElementById('slotLibreNombre').value = '';
     document.getElementById('slotLibreAsignatura').value = '';
     document.getElementById('slotLibreNivel').value = '';
     document.getElementById('slotLibreAlumno').value = '';
-    modal.style.display = 'block'; modal.setAttribute('aria-hidden', 'false');
-    document.getElementById('slotLibreNombre').focus();
+    modal.style.display = 'block';
+    modal.setAttribute('aria-hidden', 'false');
+    setTimeout(function(){ document.getElementById('slotLibreNombre').focus(); }, 100);
   }
 
   window.closeModalSlotLibre = function () {
@@ -275,17 +314,22 @@
   };
 
   window.sendWhatsAppSlotLibre = function () {
-    var ctx    = document.getElementById('slotLibreContext').value;
-    var nombre = document.getElementById('slotLibreNombre').value.trim();
-    var asig   = document.getElementById('slotLibreAsignatura').value.trim();
-    var nivel  = document.getElementById('slotLibreNivel').value.trim();
-    var alumno = document.getElementById('slotLibreAlumno').value.trim();
-    if (!nombre || !asig || !nivel || !alumno) { alert('Por favor, completa todos los campos.'); return; }
-    var msg = 'Hola Oscar, quiero solicitar un hueco libre en tu calendario.\n\nHueco: ' + ctx +
-              '\n\nNombre (persona de contacto): ' + nombre +
-              '\nAsignatura: ' + asig +
-              '\nNivel: ' + nivel +
-              '\nNombre del alumno: ' + alumno + '\n\nGracias.';
+    var ctx    = (document.getElementById('slotLibreContext')    || {}).value || '';
+    var nombre = ((document.getElementById('slotLibreNombre')    || {}).value || '').trim();
+    var asig   = ((document.getElementById('slotLibreAsignatura')|| {}).value || '').trim();
+    var nivel  = ((document.getElementById('slotLibreNivel')     || {}).value || '').trim();
+    var alumno = ((document.getElementById('slotLibreAlumno')    || {}).value || '').trim();
+    if (!nombre || !asig || !nivel || !alumno) {
+      alert('Por favor, completa todos los campos.');
+      return;
+    }
+    var msg = 'Hola Oscar, quiero solicitar un hueco libre en tu calendario.\n\n' +
+              'Hueco: ' + ctx + '\n\n' +
+              'Nombre (persona de contacto): ' + nombre + '\n' +
+              'Asignatura: ' + asig + '\n' +
+              'Nivel: ' + nivel + '\n' +
+              'Nombre del alumno: ' + alumno + '\n\n' +
+              'Gracias.';
     openWhatsApp(msg);
     window.closeModalSlotLibre();
   };
