@@ -27,9 +27,9 @@
     initStarfield();
     initSpine3D();
     initTilt();
-    initReveal();
-    renderPrezi();
-    renderTestimonios();
+    renderPrezi();        // ← primero crea las tarjetas ✅
+    renderTestimonios();  // ← primero crea las tarjetas ✅
+    initReveal();         // ← ahora sí las encuentra y las observa ✅
     initNav();
     if (typeof window.initAgenda === 'function') window.initAgenda();
   });
