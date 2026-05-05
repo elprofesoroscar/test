@@ -267,26 +267,84 @@
   </div>
 </section>
 
+<!-- TÉRMINOS Y CONDICIONES -->
+<section class="section section--terminos" id="terminos" aria-labelledby="terminos-title">
+  <div class="container container--narrow">
+    <p class="kicker reveal"><span>📜</span> Legal</p>
+    <h2 id="terminos-title" class="reveal">Términos y <em>condiciones</em>.</h2>
+    <div class="terminos-acordeon">
+
+      <details class="faq-item reveal">
+        <summary>1. Objeto y ámbito de aplicación</summary>
+        <p>El presente documento establece las condiciones generales que regulan la prestación de servicios de enseñanza online ofrecidos por Oscar, en adelante "EL PROFESOR", a través de su sitio web. La contratación de cualquier servicio implica la aceptación plena y sin reservas de todas y cada una de las cláusulas incluidas en las presentes Condiciones Generales.</p>
+      </details>
+
+      <details class="faq-item reveal">
+        <summary>2. Bonos y política de devoluciones</summary>
+        <p>2.1. Los bonos adquiridos para clases online tienen carácter no reembolsable, conforme a lo dispuesto en el artículo 103.b) del Real Decreto Legislativo 1/2007, por tratarse de servicios educativos personalizados.<br><br>
+        2.2. En caso de no utilización completa de las clases incluidas en un bono, las sesiones restantes se facturarán individualmente al precio vigente en el momento de la contratación inicial, sin que proceda devolución alguna por las diferencias.</p>
+      </details>
+
+      <details class="faq-item reveal">
+        <summary>3. Precios y actualizaciones</summary>
+        <p>3.1. Las tarifas publicadas en el sitio web podrán ser modificadas unilateralmente por EL PROFESOR, notificándose dichos cambios con una antelación mínima de 15 días naturales a los clientes con bonos activos.<br><br>
+        3.2. Los precios incluyen todos los impuestos aplicables, emitiéndose factura conforme a lo establecido en la normativa del Impuesto sobre el Valor Añadido (Ley 37/1992).</p>
+      </details>
+
+      <details class="faq-item reveal">
+        <summary>4. Modificación y cancelación de sesiones</summary>
+        <p>4.1. Las solicitudes de modificación de horario deberán comunicarse con una antelación mínima de 72 horas mediante correo electrónico o mensajería instantánea.<br><br>
+        4.2. No se admitirán más de una modificación semanal por alumno, entendiéndose por "semana" el período de lunes a domingo.<br><br>
+        4.3. La inasistencia no comunicada en el plazo establecido no dará derecho a reposición de la clase ni a devolución del importe.</p>
+      </details>
+
+      <details class="faq-item reveal">
+        <summary>5. Disponibilidad horaria</summary>
+        <p>Las franjas horarias ofertadas están sujetas a disponibilidad. EL PROFESOR realizará sus mejores esfuerzos para ajustarse a las preferencias del alumno, si bien no se garantiza la asignación de horarios específicos hasta la confirmación expresa de la reserva.</p>
+      </details>
+
+      <details class="faq-item reveal">
+        <summary>6. Fuerza mayor</summary>
+        <p>En caso de imposibilidad sobrevenida de EL PROFESOR para impartir la clase por causas ajenas a su voluntad (enfermedad, problemas de conectividad, etc.), se ofrecerá al cliente la posibilidad de reprogramar la sesión en fecha y hora mutuamente convenidas, sin que ello genere derecho a indemnización.</p>
+      </details>
+
+      <details class="faq-item reveal">
+        <summary>7. Protección de datos (RGPD / LOPDGDD)</summary>
+        <p>7.1. En cumplimiento del Reglamento (UE) 2016/679 y de la Ley Orgánica 3/2018, se informa que los datos personales proporcionados serán tratados con la finalidad de gestionar la relación educativa y, en su caso, el envío de facturación.<br><br>
+        7.2. Los datos no serán cedidos a terceros salvo obligación legal, pudiendo el interesado ejercer los derechos de acceso, rectificación, supresión, oposición, limitación y portabilidad mediante comunicación acreditada.</p>
+      </details>
+
+      <details class="faq-item reveal">
+        <summary>8. Legislación aplicable y jurisdicción</summary>
+        <p>Las presentes condiciones se rigen por la legislación española. Para cualquier controversia que pudiera derivarse de la interpretación o ejecución de las mismas, las partes se someten expresamente a los Juzgados y Tribunales del domicilio del alumno, siempre que este tenga la condición de consumidor, o en su defecto, a los de la ciudad de Madrid.</p>
+      </details>
+
+    </div>
+  </div>
+</section>
+
+
 </main>
 
 <footer class="site-footer">
   <div class="container">
     <p>© <span id="year"></span> Profesor Oscar · Clases Online de Ciencias · Hecho con lógica y curiosidad.</p>
-    <p class="legal-links"><a href="#faq">FAQ</a> · <a href="#contacto">Contacto</a> · <a href="#disponibilidad">Disponibilidad</a></p>
+    <p class="legal-links"><a href="#faq">FAQ</a> · <a href="#contacto">Contacto</a> · <a href="#disponibilidad">Disponibilidad</a> · <a href="#terminos">Términos y condiciones</a></p>
   </div>
 </footer>
 
-<div class="modal" id="modalSlotLibre" aria-hidden="true">
+<div class="modal" id="modalSlotLibre" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modalSlotTitle">
   <div class="modal-content">
     <button class="close" type="button" onclick="closeModalSlotLibre()" aria-label="Cerrar">×</button>
-    <h3>Reservar hueco libre</h3>
-    <p class="modal-slot-intro" id="modalSlotIntro">Vas a solicitar el hueco: <strong id="slotLibreContextLabel"></strong></p>
+    <h3 id="modalSlotTitle">Reservar hueco libre</h3>
+    <p class="modal-slot-intro">Completa los datos y se abrirá WhatsApp con el mensaje listo para enviar.</p>
+    <p class="modal-slot-intro">Hueco seleccionado: <strong id="slotLibreContextLabel"></strong></p>
     <input type="hidden" id="slotLibreContext" />
-    <input type="text" id="slotLibreNombre" placeholder="Tu nombre (persona de contacto) *" />
+    <input type="text" id="slotLibreNombre" placeholder="Tu nombre (persona de contacto) *" autocomplete="name" />
     <input type="text" id="slotLibreAsignatura" placeholder="Asignatura *" />
-    <input type="text" id="slotLibreNivel" placeholder="Nivel (ESO, Bach., Universidad...) *" />
+    <input type="text" id="slotLibreNivel" placeholder="Nivel (ej. 2º Bachillerato Ciencias) *" />
     <input type="text" id="slotLibreAlumno" placeholder="Nombre del alumno *" />
-    <button type="button" class="btn-primary" onclick="sendWhatsAppSlotLibre()" data-testid="modal-send-whatsapp"><i class="fab fa-whatsapp"></i> Enviar por WhatsApp</button>
+    <button type="button" class="btn-primary" onclick="sendWhatsAppSlotLibre()" style="width:100%;justify-content:center;margin-top:1rem"><i class="fab fa-whatsapp"></i> Enviar por WhatsApp</button>
   </div>
 </div>
 
